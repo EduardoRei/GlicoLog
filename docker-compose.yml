@@ -1,0 +1,29 @@
+services:
+  backend:
+    container_name: backend-api
+    build:
+      context: ./back-end/GlicoLog.Server
+      dockerfile: GlicoLog.Server/Dockerfile
+
+    environment:
+      - ConnectionStrings__DefaultConnection=${DB_CONNECTION_STRING}
+    ports:
+      - "5000:8080"
+    networks:
+      - glicontrole-net
+    restart: unless-stopped
+
+  frontend:
+    container_name: frontend-ui
+    build:
+      context: ./front-end/GlicoLog-Web
+      dockerfile: Dockerfile
+    ports:
+      - "4200:4200"
+    networks:
+      - glicontrole-net
+    restart: unless-stopped
+
+networks:
+  glicontrole-net:
+    driver: bridge
